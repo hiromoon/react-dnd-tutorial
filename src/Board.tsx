@@ -2,6 +2,8 @@ import React, { useCallback } from 'react'
 import { Square } from './Square'
 import { Knight } from './Knight'
 import { moveKnight, canMoveKnight } from './Game'
+import { DndProvider } from 'react-dnd'
+import Backend from 'react-dnd-html5-backend'
 
 interface renderSquareProps {
   i: number
@@ -31,19 +33,21 @@ const RenderSquare: React.FC<renderSquareProps> =
 
 export const Board: React.FC<{knightPosition: [number, number]}> = ({knightPosition}) => {
   return (
-    <div
-      style={{
-        width: '300px',
-          height: '300px',
-          display: 'flex',
-          flexWrap: 'wrap'
-      }}
-    >
-      {
-        [ ...(new Array(64)) ].map((_, i) =>
-          <RenderSquare key={i} i={i} knightPosition={knightPosition} />
-        )
-      }
-    </div>
+    <DndProvider backend={Backend}>
+      <div
+        style={{
+          width: '300px',
+            height: '300px',
+            display: 'flex',
+            flexWrap: 'wrap'
+        }}
+      >
+        {
+          [ ...(new Array(64)) ].map((_, i) =>
+            <RenderSquare key={i} i={i} knightPosition={knightPosition} />
+          )
+        }
+      </div>
+    </DndProvider>
   )
 }
