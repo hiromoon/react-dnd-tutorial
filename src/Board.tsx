@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { Square } from './Square'
+import { BoardSquare } from './BoardSquare'
 import { Knight } from './Knight'
 import { moveKnight, canMoveKnight } from './Game'
 import { DndProvider } from 'react-dnd'
@@ -14,9 +14,6 @@ const RenderSquare: React.FC<renderSquareProps> =
     const x = i % 8
     const y = Math.floor(i / 8)
     const [ knightX, knightY ] = knightPosition
-    const isKnightHere = knightX === x && knightY === y
-    const black = (x + y) % 2 === 1
-    const piece = isKnightHere ? <Knight /> : null
 
     const handleSqureClick = useCallback(() => {
       if (canMoveKnight(x, y)) {
@@ -26,7 +23,9 @@ const RenderSquare: React.FC<renderSquareProps> =
 
     return (
       <div onClick={handleSqureClick} style={{ width: '12.5%', height: '12.5%' }}>
-        <Square black={black}>{piece}</Square>
+        <BoardSquare x={x} y={y}>
+          {(x === knightX && y === knightY) ? <Knight /> : null}
+        </BoardSquare>
       </div>
     )
   }
